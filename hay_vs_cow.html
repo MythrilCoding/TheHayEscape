@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Hay vs Cow</title>
+		<script src="https://simplycodingcourses.com/files/simply.js">
+		</script>
+		<script>
+		function start() {
+			sjs.open("target", 900, 600);
+			var target = document.getElementById("target");
+			target.style.outline = "thick solid #000000";
+			target.style.outlineWidth = "5px";
+			var bg = new sjs.Image('Images/bg_layer.png',1440,1440);
+			bg_center = bg.getCenter();
+			//For debugging
+			var invincibiility = false;
+			//sound effect
+			var SFX = new Audio("Sounds/SFX/techno.mp3");
+			//music
+			var song = new Audio("Sounds/Music/shelf_life.mp3");
+			var toggle = true;
+			var songOn = false;
+			sjs.keyDown(M_KEY, function() {
+				if (toggle == true ) {
+					if (songOn == false) {
+					song.play();
+					songOn = true;
+					} else {
+					song.pause();
+					songOn = false;
+					}
+					toggle = false;
+					setTimeout(function() {
+						toggle = true;
+					}, 1000);
+				}
+			});
+			//tiles (bordering tiles are preassigned to act as bordering trees)
+			var tileA1 = new sjs.Image("Images/tree.png", 240, 240);
+			var tileA2 = new sjs.Image("Images/tree.png", 240, 240);
+			var tileA3 = new sjs.Image("Images/tree.png", 240, 240);
+			var tileA4 = new sjs.Image("Images/tree.png", 240, 240);
+			var tileA5 = new sjs.Image("Images/tree.png", 240, 240);
+			var tileA6 = new sjs.Image("Images/tree.png", 240, 240);
+			var tileB1 = new sjs.Image("Images/tree.png", 240, 240);
+			var tileB2 = new sjs.Image("Images/grass.png",240, 240);
+			var tileB3 = new sjs.Image("Images/grass.png",240, 240);
+			var tileB4 = new sjs.Image("Images/grass.png",240, 240);
+			var tileB5 = new sjs.Image("Images/grass.png",240, 240);
+			var tileB6 = new sjs.Image("Images/tree.png", 240, 240);
+			var tileC1 = new sjs.Image("Images/tree.png", 240, 240);
+			var tileC2 = new sjs.Image("Images/grass.png",240, 240);
+			var tileC3 = new sjs.Image("Images/grass.png",240, 240);
+			var tileC4 = new sjs.Image("Images/grass.png",240, 240);
+			var tileC5 = new sjs.Image("Images/grass.png",240, 240);
+			var tileC6 = new sjs.Image("Images/tree.png", 240, 240);
+			var tileD1 = new sjs.Image("Images/tree.png", 240, 240);
+			var tileD2 = new sjs.Image("Images/grass.png",240, 240);
+			var tileD3 = new sjs.Image("Images/grass.png",240, 240);
+			var tileD4 = new sjs.Image("Images/grass.png",240, 240);
+			var tileD5 = new sjs.Image("Images/grass.png",240, 240);
+			var tileD6 = new sjs.Image("Images/tree.png", 240, 240);
+			var tileE1 = new sjs.Image("Images/tree.png", 240, 240);
+			var tileE2 = new sjs.Image("Images/grass.png",240, 240);
+			var tileE3 = new sjs.Image("Images/grass.png",240, 240);
+			var tileE4 = new sjs.Image("Images/grass.png",240, 240);
+			var tileE5 = new sjs.Image("Images/grass.png",240, 240);
+			var tileE6 = new sjs.Image("Images/tree.png", 240, 240);
+			var tileF1 = new sjs.Image("Images/tree.png", 240, 240);
+			var tileF2 = new sjs.Image("Images/tree.png",240, 240);
+			var tileF3 = new sjs.Image("Images/tree.png",240, 240);
+			var tileF4 = new sjs.Image("Images/tree.png",240, 240);
+			var tileF5 = new sjs.Image("Images/tree.png",240, 240);
+			var tileF6 = new sjs.Image("Images/tree.png", 240, 240);
+			//assorting system
+			function selectTile(tile) {
+				var randomSelector = Math.round(Math.random()*3);
+				if (randomSelector == 0 || randomSelector == 1 || randomSelector == 2){
+					tile.setImage("Images/grass.png")
+				} else if (randomSelector == 3){
+					tile.setImage("Images/lake.png");
+					tile.type = 'lake';
+				}
+			}
+			//randomly assign tiles to non-bordering tiles
+			selectTile(tileB2);
+			selectTile(tileB3);
+			selectTile(tileB4);
+			selectTile(tileB5);
+			selectTile(tileC2);
+			selectTile(tileC3);
+			selectTile(tileC4);
+			selectTile(tileC5);
+			selectTile(tileD2);
+			selectTile(tileD3);
+			selectTile(tileD4);
+			selectTile(tileD5);
+			selectTile(tileE2);
+			selectTile(tileE3);
+			selectTile(tileE4);
+			selectTile(tileE5);
+			//move tiles into grid
+			tileA1.moveTo(0, 0);
+			tileA2.moveTo(240, 0);
+			tileA3.moveTo(480, 0);
+			tileA4.moveTo(720, 0);
+			tileA5.moveTo(960, 0);
+			tileA6.moveTo(1200, 0);
+			tileB1.moveTo(0, 240);
+			tileB2.moveTo(240, 240);
+			tileB3.moveTo(480, 240);
+			tileB4.moveTo(720, 240);
+			tileB5.moveTo(960, 240);
+			tileB6.moveTo(1200, 240);
+			tileC1.moveTo(0, 480);
+			tileC2.moveTo(240, 480);
+			tileC3.moveTo(480, 480);
+			tileC4.moveTo(720, 480);
+			tileC5.moveTo(960, 480);
+			tileC6.moveTo(1200, 480);
+			tileD1.moveTo(0, 720);
+			tileD2.moveTo(240, 720);
+			tileD3.moveTo(480, 720);
+			tileD4.moveTo(720, 720);
+			tileD5.moveTo(960, 720);
+			tileD6.moveTo(1200, 720);
+			tileE1.moveTo(0, 960);
+			tileE2.moveTo(240, 960);
+			tileE3.moveTo(480, 960);
+			tileE4.moveTo(720, 960);
+			tileE5.moveTo(960, 960);
+			tileE6.moveTo(1200, 960);
+			tileF1.moveTo(0, 1200);
+			tileF2.moveTo(240, 1200);
+			tileF3.moveTo(480, 1200);
+			tileF4.moveTo(720, 1200);
+			tileF5.moveTo(960, 1200);
+			tileF6.moveTo(1200, 1200);
+			//assign necessary types
+			tileA1.type = 'tree'
+			tileA2.type = 'tree'
+			tileA3.type = 'tree'
+			tileA4.type = 'tree'
+			tileA5.type = 'tree'
+			tileA6.type = 'tree'
+			tileB1.type = 'tree'
+			tileB6.type = 'tree'
+			tileC1.type = 'tree'
+			tileC6.type = 'tree'
+			tileD1.type = 'tree'
+			tileD6.type = 'tree'
+			tileE1.type = 'tree'
+			tileE6.type = 'tree'
+			tileF1.type = 'tree'
+			tileF2.type = 'tree'
+			tileF3.type = 'tree'
+			tileF4.type = 'tree'
+			tileF5.type = 'tree'
+			tileF6.type = 'tree'
+			
+			//player properties
+			var player = new sjs.Image("Images/R_idle.png");
+			player.setSize(40, 60)
+			player.type = "player";
+			player.friction = 0.5;
+			player.x = bg_center.x;
+			player.y = bg_center.y;
+			var playerSpeed = 2.5;
+			var playerHP = 10;
+			sjs.scrollable(player, bg);
+			var rightFacing = true;
+			var upFacing = false;
+			var downFacing = false;
+			var leftFacing = false;
+			player.node.style.userSelect = "none";
+			player.node.style.webkitUserSelect = "none";
+			player.node.style.mozUserSelect = "none";
+			var playerImagesRight = ["Images/R_idle.png", "Images/R_walk-1.png", "Images/R_walk-2.png", "Images/R_walk-3.png", "Images/R_walk-4.png"];
+			var playerImagesLeft = ["Images/L_idle.png", "Images/L_walk-1.png", "Images/L_walk-2.png", "Images/L_walk-3.png", "Images/L_walk-4.png"];
+			var lastFacing;
+			var r_track = 0;
+			var l_track = 0;
+			var leftEnemy;
+			var enemyImagesRight = ["Images/R_enemy-1.png", "Images/R_enemy-2.png", "Images/R_enemy-3.png", "Images/R_enemy-4.png"];
+			var enemyImagesLeft = ["Images/L_enemy-1.png", "Images/L_enemy-2.png", "Images/L_enemy-3.png", "Images/L_enemy-4.png"];
+			var enemy_l_track = 0;
+			var enemy_r_track = 0;
+			//UI
+			var healthIndicator = new sjs.Text("HP:"+playerHP, 23.14159, "red");
+			healthIndicator.right().offset(-12.5,5);
+			healthIndicator.fixed = true;
+			var heart = new sjs.Image("Images/Heart.png");
+			heart.setSize(23.14159)
+			heart.moveTo(healthIndicator.x, healthIndicator.y);
+			heart.offset(-27, 0);
+			heart.fixed = true;
+			var score = 0;
+			var scoreTxt = new sjs.Text("Score: "+score, 21, 'orange');
+			scoreTxt.top().left().offset(3.14159,0);
+			scoreTxt.fixed = true;
+			//controls
+			sjs.keyDown(RIGHT_KEY, function(){
+				player.pushRight(playerSpeed);
+				rightFacing = true;
+				upFacing = false;
+				downFacing = false;
+				leftFacing = false;
+				r_track++;
+				player.setImage(playerImagesRight[r_track]);
+				if (r_track === 4){
+					r_track = 0;
+				}
+			});
+			sjs.keyDown(LEFT_KEY, function(){
+				player.pushLeft(playerSpeed);
+				rightFacing = false;
+				upFacing = false;
+				downFacing = false;
+				leftFacing = true;
+				l_track++;
+				player.setImage(playerImagesLeft[l_track]);
+				if (l_track === 4){
+					l_track = 0;
+				}
+			});
+			sjs.keyDown(UP_KEY, function(){
+				player.pushUp(playerSpeed);
+				if(rightFacing === true){
+					lastFacing = "right";
+				} else if (leftFacing === true){
+					lastFacing = "left";
+				}
+				upFacing = true;
+				rightFacing = false;
+				leftFacing = false;
+				downFacing = false;
+				if (lastFacing === "right"){
+					r_track++;
+					player.setImage(playerImagesRight[r_track]);
+					if (r_track === 4){
+						r_track = 0;
+					}
+				} else if (lastFacing === "left"){
+					l_track++;
+					player.setImage(playerImagesLeft[l_track]);
+					if (l_track === 4){
+					l_track = 0;
+					}
+				}
+			});
+			sjs.keyDown(DOWN_KEY, function(){
+				player.pushDown(playerSpeed);
+				if(rightFacing === true){
+					lastFacing = "right";
+				} else if (leftFacing === true){
+					lastFacing = "left";
+				}
+				upFacing = false;
+				rightFacing = false;
+				downFacing = true;
+				leftFacing = false;
+				if (lastFacing === "right"){
+					r_track++;
+					player.setImage(playerImagesRight[r_track]);
+					if (r_track === 4){
+						r_track = 0;
+					}
+				} else if (lastFacing === "left"){
+					l_track++;
+					player.setImage(playerImagesLeft[l_track]);
+					if (l_track === 4){
+					l_track = 0;
+					}
+				}
+			});
+			sjs.keyDown(D_KEY, function(){
+				player.pushRight(playerSpeed);
+				rightFacing = true;
+				upFacing = false;
+				downFacing = false;
+				leftFacing = false;
+				r_track++;
+				player.setImage(playerImagesRight[r_track]);
+				if (r_track === 4){
+					r_track = 0;
+				}
+			});
+			sjs.keyDown(A_KEY, function(){
+				player.pushLeft(playerSpeed);
+				rightFacing = false;
+				upFacing = false;
+				downFacing = false;
+				leftFacing = true;
+				l_track++;
+				player.setImage(playerImagesLeft[l_track]);
+				if (l_track === 4){
+					l_track = 0;
+				}
+			});
+			sjs.keyDown(W_KEY, function(){
+				player.pushUp(playerSpeed);
+				if(rightFacing === true){
+					lastFacing = "right";
+				} else if (leftFacing === true){
+					lastFacing = "left";
+				}
+				upFacing = true;
+				rightFacing = false;
+				leftFacing = false;
+				downFacing = false;
+				if (lastFacing === "right"){
+					r_track++;
+					player.setImage(playerImagesRight[r_track]);
+					if (r_track === 4){
+						r_track = 0;
+					}
+				} else if (lastFacing === "left"){
+					l_track++;
+					player.setImage(playerImagesLeft[l_track]);
+					if (l_track === 4){
+					l_track = 0;
+					}
+				}
+			});
+			sjs.keyDown(S_KEY, function(){
+				player.pushDown(playerSpeed);
+				if(rightFacing === true){
+					lastFacing = "right";
+				} else if (leftFacing === true){
+					lastFacing = "left";
+				}
+				upFacing = false;
+				rightFacing = false;
+				downFacing = true;
+				leftFacing = false;
+				if (lastFacing === "right"){
+					r_track++;
+					player.setImage(playerImagesRight[r_track]);
+					if (r_track === 4){
+						r_track = 0;
+					}
+				} else if (lastFacing === "left"){
+					l_track++;
+					player.setImage(playerImagesLeft[l_track]);
+					if (l_track === 4){
+					l_track = 0;
+					}
+				}
+			});
+				//attack
+				var pitchforkSpeed = 15;
+				var attackSpeed = 5;
+				var canShoot = true;
+			sjs.keyDown(SPACE_KEY, function(){
+				if (rightFacing === true && canShoot === true){
+					var pitchfork = new sjs.Image("Images/pitchfork-right.png");
+					pitchfork.setSize(30,15);
+					pitchfork.friction = 0;
+					pitchfork.type = "attack";		
+					pitchfork.moveTo(player.getX()+player.getWidth()/2, player.getY()+15);
+					pitchfork.pushRight(pitchforkSpeed);
+					setTimeout(function(){
+						pitchfork.destroy();
+					}, 1000);
+					canShoot = false;
+					setTimeout(function(){
+						canShoot = true;
+					}, 1000 );
+				} else if (downFacing === true && canShoot === true){
+					var pitchfork = new sjs.Image("Images/pitchfork-down.png");
+					pitchfork.setSize(15, 30);
+					pitchfork.friction = 0;
+					pitchfork.type = "attack";
+					pitchfork.moveTo(player.getX()+player.getWidth()/2, player.getY()+15);
+					pitchfork.pushDown(pitchforkSpeed);
+					setTimeout(function(){
+						pitchfork.destroy();
+					}, 1000);
+					canShoot = false;
+					setTimeout(function(){
+						canShoot = true;
+					}, 1000 );
+				} else if (upFacing === true && canShoot === true){
+					var pitchfork = new sjs.Image("Images/pitchfork.png");
+					pitchfork.setSize(15, 30);
+					pitchfork.friction = 0;
+					pitchfork.type = "attack";
+					pitchfork.moveTo(player.getX()+player.getWidth()/2, player.getY()+15);
+					pitchfork.pushUp(pitchforkSpeed);
+					setTimeout(function(){
+						pitchfork.destroy();
+					}, 1000);
+					canShoot = false;
+					setTimeout(function(){
+						canShoot = true;
+					}, 1000 );
+				} else if (leftFacing === true && canShoot === true){
+					var pitchfork = new sjs.Image("Images/pitchfork-left.png");
+					pitchfork.setSize(30, 15);
+					pitchfork.friction = 0;
+					pitchfork.type = "attack";
+					pitchfork.moveTo(player.getX()+player.getWidth()/2, player.getY()+15);
+					pitchfork.pushLeft(pitchforkSpeed);
+					setTimeout(function(){
+						pitchfork.destroy();
+					}, 1000);
+					canShoot = false;
+					setTimeout(function(){
+						canShoot = true;
+					}, 1000 );
+				}
+			});
+			//enemy properties
+			var enemy = new sjs.Image("Images/R_enemy-1.png",40,60);
+			enemy.type = "enemy";
+			enemy.friction = 0.4;
+			enemy.moveTo(tileB4.x, tileB4.y)
+			//collision detection and dmg
+			var playerImmunityTime = 0;
+			setInterval(function () {
+				if ((player.x + 40 < enemy.x || player.x > enemy.x + 40) && (player.y + 60 < enemy.y || player.y > enemy.y + 60)){
+					//enemyCollision = false;
+					playerImmunityTime = 0;
+				}
+			}, 500);
+
+			sjs.onHit('player', 'enemy', function(){
+					if (playerImmunityTime == 0 && invincibiility == false){
+						playerHP = playerHP -1;
+						healthIndicator.setText('HP: '+playerHP);
+						playerImmunityTime = 20;
+					} else {
+						playerImmunityTime = playerImmunityTime - 1;
+					}
+					if (playerHP == 0){
+						player.destroy();
+						setTimeout(function(){
+							window.location = "gameover.html";
+						}, 500);
+					}
+			});
+			sjs.onHit(["player", "enemy"], "tree", function(x, y){
+				sjs.stoppedBy(x, y)
+			},0.10)
+			//enemy collision with attack
+			sjs.onHit("enemy", "attack", function(x, y){
+				x.hide();
+				x.destroy();
+				x.isAlive = false;
+				y.destroy();
+				score++;
+				scoreTxt.setText('Score: '+score);
+				localStorage.setItem("score", score);
+				SFX.play();
+				});
+			sjs.onHit(['player', 'enemy'], 'lake', function(x, y){
+				x.stop();
+			}, 0.20)
+			//enemy movement
+		setInterval(function(){
+			if (l_track === 3) {
+				l_track = 0;
+			}
+			l_track++;
+		}, 500);
+		setInterval(function(){
+			if (r_track === 3) {
+				r_track = 0;
+			}
+			r_track++;
+		}, 500);
+			function followPlayer(e) {
+				var xDirection = e.x - player.x;
+				var yDirection = e.y - player.y;
+				if (xDirection > 0 && xDirection < 10){
+					xDirection = 10;
+				} else if (xDirection < 0 && xDirection > -10){
+					xDirection = -10;
+				}
+				if (yDirection > 0 && yDirection < 10){
+					yDirection = 10;
+				} else if (yDirection < 0 && yDirection > -10){
+					yDirection = -10;
+				}
+				if (xDirection > 0){
+					leftEnemy = true;
+				} else if (xDirection < 0){
+					leftEnemy = false;
+				}
+				e.pushLeft(xDirection/40);
+				e.pushUp(yDirection/40);
+				if (leftEnemy === false){
+					if(!e.isAlive === false){
+						e.setImage(enemyImagesRight[r_track])
+					}
+				} else if (leftEnemy === true){
+					if(!e.isAlive === false)
+					e.setImage(enemyImagesLeft[l_track])
+				}
+			}
+			//enemy spawning
+			function enemySpawn(enem) {
+				var enem = new sjs.Image("Images/L_enemy-1.gif", 40, 60);
+				enem.friction = 0.4;
+				enem.type = 'enemy'
+				enem.isAlive = true;
+				enem.moveTo(Math.round(Math.random()*(1200 - 240)+240), Math.round(Math.random()*(1200 - 240)+240));
+				if (enem.x == player.x + player.getWidth() && enem.y == player.y + player.getHeight()){
+					enem.moveTo(Math.round(Math.random()*(1200 - 240)+240), Math.round(Math.random()*(1200 - 240)+240));
+				}
+				setInterval(function(){
+				followPlayer(enem)
+				}, 100)	
+			}
+			setInterval(function(){
+				followPlayer(enemy)
+			}, 100);
+			setInterval(function(){
+				enemySpawn(enemy);
+
+			}, 3000)
+			var musicInstructions = new sjs.Text("Press M to toggle the music!", 21, "black");
+			musicInstructions.centerH().bottom();
+			musicInstructions.fixed = true;
+			setTimeout(function() {
+				musicInstructions.destroy();
+			}, 4000 );
+		}//end start
+		</script>
+	</head>
+	<body onload="start()">
+		<style type="text/css"> 
+			body {
+				overflow: hidden;
+				padding: 0;
+				margin: 0;
+				user-select: none;
+				background-color: lightgrey;
+			}
+			h1 {
+				text-align: center;
+				font-weight: normal;
+			}
+		</style>
+	<h1>Hay vs Cow</h1>
+	<div id="target" style="margin:auto;background:grey"></div>
+	</body>
+</html>

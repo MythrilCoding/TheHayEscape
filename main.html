@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://simplycodingcourses.com/files/simply.js"></script>
+		<script>
+			function start() {
+				sjs.open("target", 600, 500);
+				var menuBtn = new sjs.Button("Play!", function(){
+					window.location = "hay_vs_cow.html";
+				});
+				menuBtn.center();
+				menuBtn.setSize(100, 25);
+				var authorOutline = new sjs.Text("Made by: Josué Pineda", 21, "white");
+				authorOutline.bottom().centerH();
+				var author = new sjs.Text("Made by: Josué Pineda", 21, "black");
+
+				author.centerH().bottom();
+				var instructions = new sjs.Text("To move use either WASD or the arrow keys. You will be faced with waves of cows you have to defeat, or else they'll eat you. In order to defend yourself use spacebar to throw a pitchfork in the direction you are facing. Survive for as long as you can!", 21, "darkred");
+			}
+		</script>
+	</head>
+	<body onload="start()">
+		<span> <h1 class="welcome">Welcome to the game!</h1> </span> 
+		<div id="target" style="margin:auto;background:grey;"></div>
+		<style type="text/css">
+		body, html {
+			overflow: hidden;
+		}
+		#target {
+			text-align: center;
+		}
+		.welcome {
+			text-align: center;
+			font-weight: normal;
+		}
+		p, h1, button {
+			user-select:none;
+		}
+		</style>
+	</body>
+</html>

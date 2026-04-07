@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://simplycodingcourses.com/files/simply.js"></script>
+		<script>
+			function start() {
+				sjs.open("target", 600, 500);
+				var score_text = new sjs.Text("Your score is:",20,"green");
+				score_text.centerH().offset(0, 5);
+				score_text.setText("Your score is: " + localStorage.getItem("score") + "!")
+				var menuBtn = new sjs.Button("Back to main menu", function(){
+					window.location = "main.html"
+				});
+				menuBtn.center();
+				menuBtn.setSize(100, 25);
+			}
+		</script>
+	</head>
+	<body onload="start()">
+		<span> <h1 class="lost"> You lost... </h1> </span> 
+		<div id="target" style="margin:auto;background:grey;"></div>
+		<style type="text/css">
+		body, html {
+			overflow: hidden;
+		}
+		#target {
+			text-align: center;
+		}
+		.lost {
+			text-align: center;
+			font-weight: normal;
+			color: red;
+		}
+		</style>
+	</body>
+</html>
